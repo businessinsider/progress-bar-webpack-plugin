@@ -41,8 +41,14 @@ module.exports = function ProgressBarPlugin(options) {
   var running = false;
   var startTime = 0;
   var lastPercent = 0;
+  var locked = true;
 
   return new webpack.ProgressPlugin(function (percent, msg) {
+
+    setTimeout(() => {locked = false}, 100)
+
+    if (locked) return;
+
     if (!running && lastPercent !== 0 && !customSummary) {
       stream.write('\n');
     }
